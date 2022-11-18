@@ -6,12 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.util.Log.DEBUG
 import android.widget.Toast
 import com.pietroluongo.animalfacts.databinding.ActivityAnimalPicturesBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.concurrent.Executors
 
 class AnimalPictures : AppCompatActivity() {
     lateinit var binding: ActivityAnimalPicturesBinding
+
+    private val bpService = ClientRetrofit.createService(CatService::class.java)
+    private val listCall = bpService.getCats()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAnimalPicturesBinding.inflate(layoutInflater)
@@ -21,6 +30,22 @@ class AnimalPictures : AppCompatActivity() {
         val handler = Handler(Looper.getMainLooper())
 
         val imageView = binding.imageView
+
+        listCall.enqueue(object: Callback<List<CatEntity>> {
+            override fun onResponse(
+                call: Call<List<CatEntity>>,
+                response: Response<List<CatEntity>>
+            ) {
+                val list = response.body()
+                Log.d("Success", "Got following response: ${response.body()}")
+                Log.d("Success", "Got following call: ${call.request()}")
+            }
+
+            override fun onFailure(call: Call<List<CatEntity>>, t: Throwable) {
+                Log.e("Failed", "Failed to fetch - ${t.cause}")
+                Log.e("Failed", "Failed to fetch call - ${call.request()}")
+            }
+        })
 
 
         executor.execute {
@@ -39,7 +64,6 @@ class AnimalPictures : AppCompatActivity() {
                 Toast.makeText(baseContext, " $e", Toast.LENGTH_LONG).show()
             }
         }
-
 
 
     }
