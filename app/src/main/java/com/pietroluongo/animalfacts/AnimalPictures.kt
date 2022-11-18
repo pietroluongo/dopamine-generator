@@ -25,7 +25,7 @@ enum class Animal {
 
 class AnimalPictures : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityAnimalPicturesBinding
-    private lateinit var catVM: CatViewModel
+    private lateinit var animalVM: AnimalViewModel
     private lateinit var prefs: AnimalPreferences
     private lateinit var preferredAnimal: Animal
 
@@ -34,7 +34,7 @@ class AnimalPictures : AppCompatActivity(), View.OnClickListener {
         binding = ActivityAnimalPicturesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        catVM = ViewModelProvider(this).get(CatViewModel::class.java)
+        animalVM = ViewModelProvider(this).get(AnimalViewModel::class.java)
         setObserver()
 
         preferredAnimal = Animal.fromString(AnimalPreferences(baseContext).getString("ANIMAL_TYPE"))
@@ -47,8 +47,12 @@ class AnimalPictures : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View) {
         when (view.id) {
             binding.fetchAnimalButton.id -> {
-                Log.d("Cat", "clicked!")
-                catVM.fetchCat()
+                when(preferredAnimal) {
+                    Animal.Cat ->
+                        animalVM.fetchCat()
+                    else ->
+                        animalVM.fetchDog()
+                }
             }
             else -> {
 
@@ -57,7 +61,7 @@ class AnimalPictures : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setObserver() {
-        catVM.getCatImage().observe(this, Observer {
+        animalVM.getAnimalImage().observe(this, Observer {
             binding.imageView.setImageBitmap(it)
         })
     }
