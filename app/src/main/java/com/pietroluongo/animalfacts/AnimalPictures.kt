@@ -8,15 +8,22 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.util.Log.DEBUG
+import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.pietroluongo.animalfacts.databinding.ActivityAnimalPicturesBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.Executors
 
-class AnimalPictures : AppCompatActivity() {
+class AnimalPictures : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityAnimalPicturesBinding
+
+    private lateinit var catVM: CatViewModel
 
     private val bpService = ClientRetrofit.createService(CatService::class.java)
     private val listCall = bpService.getCats()
@@ -26,45 +33,28 @@ class AnimalPictures : AppCompatActivity() {
         binding = ActivityAnimalPicturesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val executor = Executors.newSingleThreadExecutor()
-        val handler = Handler(Looper.getMainLooper())
+        catVM = ViewModelProvider(this).get(CatViewModel::class.java)
+        setObserver()
 
-        val imageView = binding.imageView
+        binding.fetchAnimalButton.setOnClickListener(this)
+    }
 
-        listCall.enqueue(object: Callback<List<CatEntity>> {
-            override fun onResponse(
-                call: Call<List<CatEntity>>,
-                response: Response<List<CatEntity>>
-            ) {
-                val list = response.body()
-                Log.d("Success", "Got following response: ${response.body()}")
-                Log.d("Success", "Got following call: ${call.request()}")
+    override fun onClick(view: View) {
+        when(view.id) {
+            binding.fetchAnimalButton.id -> {
+                Log.d("Cat", "clicked!")
+                catVM.fetchCat()
             }
+            else -> {
 
-            override fun onFailure(call: Call<List<CatEntity>>, t: Throwable) {
-                Log.e("Failed", "Failed to fetch - ${t.cause}")
-                Log.e("Failed", "Failed to fetch call - ${call.request()}")
-            }
-        })
-
-
-        executor.execute {
-            try {
-                var image: Bitmap? = null
-
-                val imgUrl = "https://cdn2.thecatapi.com/images/7UmFRG3pa.jpg"
-
-                val `in` = java.net.URL(imgUrl).openStream()
-                image = BitmapFactory.decodeStream(`in`)
-                handler.post {
-                    imageView.setImageBitmap(image)
-                }
-            }
-            catch(e: java.lang.Exception) {
-                Toast.makeText(baseContext, " $e", Toast.LENGTH_LONG).show()
             }
         }
-
-
     }
+
+    private fun setObserver() {
+        catVM.getCatImage().observe(this, Observer {
+            binding.imageView.setImageBitmap(it)
+        })
+    }
+
 }

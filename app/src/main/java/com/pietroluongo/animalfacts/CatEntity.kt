@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName
 
 class CatEntity {
     @SerializedName("id")
-    var catId: String = ""
+    val catId: String = ""
 
     @SerializedName("url")
-    var url: String = ""
+    val url: String = ""
 
     @SerializedName("width")
-    var width: String = ""
+    val width: String = ""
 
     @SerializedName("height")
-    var height: String = ""
+    val height: String = ""
 
     override fun toString(): String {
         return Gson().toJson(this)
