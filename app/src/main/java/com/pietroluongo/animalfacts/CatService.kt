@@ -10,5 +10,5 @@ interface CatService {
     fun getCats(): Call<List<CatEntity>>
 
     @GET("cats/{amount}")
-    fun getNCats(@Path("amountId")catCount: Int): Call<List<CatEntity>>
+    fun getNCats(@Path("amountId") catCount: Int): Call<List<CatEntity>>
 }

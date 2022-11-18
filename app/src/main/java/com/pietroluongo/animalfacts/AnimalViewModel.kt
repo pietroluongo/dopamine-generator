@@ -13,7 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.Executors
 
-class AnimalViewModel: ViewModel() {
+class AnimalViewModel : ViewModel() {
     private var animalURL = MutableLiveData<String>()
     private var animalImage = MutableLiveData<Bitmap>()
 
@@ -31,15 +31,14 @@ class AnimalViewModel: ViewModel() {
     fun fetchCat() {
         val listCall = catService.getCats()
 
-        listCall.enqueue(object: Callback<List<CatEntity>> {
+        listCall.enqueue(object : Callback<List<CatEntity>> {
             override fun onResponse(
-                call: Call<List<CatEntity>>,
-                response: Response<List<CatEntity>>
+                call: Call<List<CatEntity>>, response: Response<List<CatEntity>>
             ) {
                 val list = response.body()
                 Log.d("Success", "Got following response: ${response.body()}")
                 Log.d("Success", "Got following call: ${call.request()}")
-                animalURL.value = response.body()?.get(0)?.url;
+                animalURL.value = response.body()?.get(0)?.url
                 downloadImage()
             }
 
@@ -52,15 +51,14 @@ class AnimalViewModel: ViewModel() {
 
     fun fetchDog() {
         val listCall = dogService.getDog()
-        listCall.enqueue(object: Callback<DogEntity> {
+        listCall.enqueue(object : Callback<DogEntity> {
             override fun onResponse(
-                call: Call<DogEntity>,
-                response: Response<DogEntity>
+                call: Call<DogEntity>, response: Response<DogEntity>
             ) {
                 val list = response.body()
                 Log.d("Success", "Got following response: ${response.body()}")
                 Log.d("Success", "Got following call: ${call.request()}")
-                animalURL.value = response.body()?.url;
+                animalURL.value = response.body()?.url
                 downloadImage()
             }
 
@@ -84,8 +82,7 @@ class AnimalViewModel: ViewModel() {
                 handler.post {
                     animalImage.value = image
                 }
-            }
-            catch(e: java.lang.Exception) {
+            } catch (e: java.lang.Exception) {
                 Log.e("Cat Error", "Failed to fetch cat data!")
             }
         }

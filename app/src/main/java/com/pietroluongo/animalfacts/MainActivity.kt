@@ -1,9 +1,9 @@
 package com.pietroluongo.animalfacts
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.pietroluongo.animalfacts.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View) {
-        when(view.id) {
+        when (view.id) {
             binding.catsButton.id -> {
                 prefs.setString("ANIMAL_TYPE", "cat")
                 startActivity(Intent(this, AnimalPictures::class.java))

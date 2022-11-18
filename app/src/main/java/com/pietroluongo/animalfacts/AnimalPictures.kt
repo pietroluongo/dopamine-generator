@@ -1,10 +1,9 @@
 package com.pietroluongo.animalfacts
 
-import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -46,9 +45,18 @@ class AnimalPictures : AppCompatActivity(), View.OnClickListener {
 
         binding.fetchAnimalButton.setOnClickListener(this)
 
-        val resourceId = this.resources.getIdentifier(preferredAnimal.toString().lowercase(), "drawable", this.packageName)
+        val resourceId = this.resources.getIdentifier(
+            preferredAnimal.toString().lowercase(),
+            "drawable",
+            this.packageName
+        )
         binding.backgroundDefaultImage.setImageResource(resourceId)
-        binding.backgroundDefaultImage.setColorFilter(ContextCompat.getColor(this, R.color.purple_700))
+        binding.backgroundDefaultImage.setColorFilter(
+            ContextCompat.getColor(
+                this,
+                R.color.purple_700
+            )
+        )
     }
 
     override fun onClick(view: View) {
