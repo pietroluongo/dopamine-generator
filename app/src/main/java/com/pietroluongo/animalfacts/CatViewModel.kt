@@ -67,7 +67,7 @@ class CatViewModel: ViewModel() {
             }
             catch(e: java.lang.Exception) {
                 Log.e("Cat Error", "Failed to fetch cat data!")
-            }   
+            }
         }
     }
 
