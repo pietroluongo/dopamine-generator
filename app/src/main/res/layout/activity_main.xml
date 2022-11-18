@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/catsButton"
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:layout_marginHorizontal="32dp"
+        android:text="I Like cats"
+        app:flow_verticalAlign="center"
+        app:layout_constraintBottom_toTopOf="@+id/dogsButton"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="155dp" />
+
+    <Button
+        android:id="@+id/dogsButton"
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:layout_marginHorizontal="32dp"
+        android:text="I Like dogs"
+        app:flow_verticalAlign="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/catsButton"
+        app:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="32dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginVertical="32dp"
+        android:textSize="24dp"
+        android:text="What do you like?"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="32dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
